@@ -1,0 +1,149 @@
+<html>
+
+<head>
+	<!-- CSS -->
+	<link rel="stylesheet" href="index.css">
+	<!-- Font Awesome CDN -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body> 
+	<main>
+		<div class="overlay hidden" id="overlay"></div>
+		<div class="draft-prompt" id="draft-prompt">
+			<h3>Discard draft?</h3>
+			<p>Are you sure you want to delete your draft?</p>
+			<div class="draft-button-container">
+				<button id="cancel-draft-btn" class="disabled-utility">Cancel</button>
+				<button id="discard-btn">Discard</button>
+			</div>
+		</div>
+
+		<div class="three-column-layout" >
+			<div class="nav">
+				<div class="img-container">
+					<a href=""><img class="img-circle" alt="Profile placeholder"></a>
+				</div>
+				<div class="nav-item active">
+					<i class="material-icons home-icon">
+						home
+					</i>
+					<span class="nav-text">Home</span>
+				</div>
+				<div class="nav-item">
+					<i class="material-icons search-icon">
+						search
+					</i>
+					<span class="nav-text">Search</span>
+				</div>
+				
+				<div class="nav-item active">
+					<i class="material-icons sms-icon">
+						sms
+					</i>
+					<span class="nav-text">Chat</span>
+				</div>
+				<div class="nav-item active">
+					<i class="material-icons notifications-icon">
+						notifications
+					</i>
+					<span class="nav-text">Notifications</span>
+				</div>
+				<div class="nav-item active">
+					<i class="material-icons tag-icon">
+						tag
+					</i>
+					<span class="nav-text">Feeds</span>
+				</div>
+				<div class="nav-item profile-user">
+					<i class="material-icons account_circle-icon">
+						account_circle
+					</i>
+					<span class="nav-text">Profile</span>
+				</div>
+				<button class="nav-btn" id="nav-btn"><i class="material-icons edit_square-icon">edit_square</i> New Post </button>			
+			  </div>
+
+			<div class="center-feed" id="center-feed">
+				<div class="tweet-input-area" id="tweet-input-area">
+					<div class="button-container">
+						<button id="tweet-btn" class="disabled-utility">Tweet</button>
+						<button id="cancel-btn">Cancel</button>
+					</div>
+					<div class="text-part">
+						<img src="images/scrimbalogo.png" class="profile-pic">
+						<textarea placeholder="What's happening?" id="tweet-input" maxlength="300"></textarea>
+					</div>
+					<div id="tweet-actions" class="tweet-actions">
+						<div class="icon-set" id="icon-set">
+						  <i class="fas fa-image"></i>
+						  <i class="fa-solid fa-film"></i>
+						  <i class="fa-solid fa-file"></i>
+						  <i class="fa-solid fa-face-smile"></i>
+						</div>
+						<div class="circular-progress" id="circular-progress">
+							<span class="counter" id="counter">300</span>
+							<div class="inner-circle" id="inner-circle"></div>
+							
+						</div>
+					</div>
+
+
+					
+				</div>
+
+				<i class="fa-brands fa-fly" id ="otter"></i>
+				<div class="menu">
+					<div class="menu-item active discover-tab">Discover</div>
+					<div class="menu-item following-tab">Following</div>
+				  </div>
+				<div class="discover" id="discover">
+					<div class="feed" id="feed">
+						<!-- Tweets here!! -->
+					</div>
+				</div>
+				<div class="following hidden" id="following">
+					<div class="feed-following" id="feed-following">
+						<!-- Tweets here!! -->
+					</div>
+
+				</div>
+
+
+			</div>
+			
+	
+			<div class="discover-feed">
+				<div class="search-box">
+					<i id="search-placeholder" class="fa-solid fa-magnifying-glass" style="position: absolute; padding: 17px;"></i> 
+					<textarea placeholder="Search" id="search-box"></textarea>
+				</div>
+					<ul class="feed-option">
+						<li class="side-item active discover-tab"><a href="#">Discover</a></li>
+						<li class="side-item following-tab"><a href="#">Following</a></li>
+						<li class="side-feeds"><a href="#">More feeds</a></li>
+					  </ul>
+					<hr class="discover-break">
+					  <ul class="privacy-option">
+						<li><a href="#">Feedback</a></li>
+						<li><a href="#">Privacy</a></li>
+						<li><a href="#">Terms</a></li>
+						<li><a href="#">Help</a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		
+		  
+	</main>
+	<script src="index.js" type="module"></script>
+</body>
+
+</html>
