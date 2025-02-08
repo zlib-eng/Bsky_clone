@@ -1,10 +1,11 @@
-import { tweetsData as initialTweetsData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 
+
 // Load tweetsData / userTweets from localStorage, or use an empty array if no data is found
-let tweetsData = initialTweetsData
+let tweetsData = JSON.parse(localStorage.getItem('tweetsData'))
 let userTweets = JSON.parse(localStorage.getItem('userTweets')) || []
+let userReplies = JSON.parse(localStorage.getItem('userReplies')) || []
 console.log(tweetsData)
 
 console.log(userTweets)
@@ -164,51 +165,57 @@ function handleCancelBtn() {
 
 function closeTweetModal() {
     document.getElementById('overlay').classList.add('hidden')
-    document.getElementById('tweet-input-area').classList.remove('show') 
+
+    const modal = document.getElementById('tweet-input-area')
+    if (modal) {
+        modal.classList.remove('show');
+    } else {
+        console.warn('Modal element not found!');
+    }
 
 }
 
 function loadHTMLProfile() {
-    const centerFeed = document.getElementById('center-feed')
+    const centerFeed = document.getElementById('center-feed');
 
-    setTimeout(() => {
-        fetch('userprofile.html').
-        then(res => res.text()).
-        then(data => centerFeed.innerHTML = data)
-    }, 1000)
-    
-    
-}
+    // Prevent adding the script multiple times
+    if (!document.querySelector('script[src="profile.js"]')) {
+        setTimeout(() => {
+            fetch('userprofile.html')
+                .then(res => res.text())
+                .then(data => {
+                    centerFeed.innerHTML = data;
+                });
 
-function deleteTweet(tweetId) {
-    // Find the index and array containing the tweet
-    const tweetIndexInUserTweets = userTweets.findIndex(tweet => tweet.uuid === tweetId)
-    const tweetIndexInTweetsData = tweetsData.findIndex(tweet => tweet.uuid === tweetId)
-
-    let tweetIndex = -1
-    let tweetArr = null
-
-    //Determine which array the tweet is in
-    if (tweetIndexInUserTweets !== -1) {
-        tweetIndex = tweetIndexInUserTweets
-        tweetArr = userTweets
-    } else if (tweetIndexInTweetsData !== -1) {
-        tweetIndex = tweetIndexInTweetsData
-        tweetArr = tweetsData
+            const script = document.createElement('script');
+            script.src = 'profile.js';
+            script.type = 'module';
+            document.body.appendChild(script);
+        }, 1000);
     }
-
-    //Remove the tweet if found
-    if (tweetArr && tweetIndex !== -1) {
-        tweetArr.splice(tweetIndex, 1)
-
-        localStorage.setItem('tweetsData', JSON.stringify(tweetsData))
-        localStorage.setItem('userTweets', JSON.stringify(userTweets))
-
-        render()
-    } 
 }
 
-function handleLikeClick(tweetId) { 
+
+export function deleteTweet(tweetId) {
+    // Find and remove the tweet from `userTweets`
+    userTweets = userTweets.filter(tweet => tweet.uuid !== tweetId);
+    
+    // Find and remove the tweet from `tweetsData`
+    tweetsData = tweetsData.filter(tweet => tweet.uuid !== tweetId);
+
+    // Find and remove from `userReplies`
+    userReplies = userReplies.filter(reply => reply.uuid !== tweetId);
+
+    // Save updated data to localStorage
+    localStorage.setItem('tweetsData', JSON.stringify(tweetsData));
+    localStorage.setItem('userTweets', JSON.stringify(userTweets));
+    localStorage.setItem('userReplies', JSON.stringify(userReplies));
+
+    render();
+}
+
+
+export function handleLikeClick(tweetId) { 
     // Find the tweet by its UUID
     const targetTweetObj = findTweetObj(userTweets, tweetId) || findTweetObj(tweetsData, tweetId)
 
@@ -223,11 +230,14 @@ function handleLikeClick(tweetId) {
 
     localStorage.setItem('tweetsData', JSON.stringify(tweetsData))
     localStorage.setItem('userTweets', JSON.stringify(userTweets))
+
+
     render();
+
 }
 
 
-function handleRetweetClick(tweetId){
+export function handleRetweetClick(tweetId){
     // Find the tweet by its UUID
     const targetTweetObj = findTweetObj(userTweets, tweetId) || findTweetObj(tweetsData, tweetId)
     
@@ -246,23 +256,20 @@ function handleRetweetClick(tweetId){
 }
 
 
-function handleReplyClick(tweetId) {
-    // Toggle visibility of the reply input and replies
-    const repliesContainer = document.getElementById(`replies-${tweetId}`)
-    const replyInputContainer = document.getElementById(`reply-input-${tweetId}`)
-    const replyInput = document.getElementById(`reply-text-${tweetId}`)
-    const replyBtn = document.getElementById('reply-button')
+export function handleReplyClick(tweetId) {
+    const repliesContainer = document.getElementById(`replies-${tweetId}`);
+    const replyInputContainer = document.getElementById(`reply-input-${tweetId}`);
 
-    repliesContainer.classList.add('replies-container');
-    replyInputContainer.classList.add('reply-input-container');
+    if (repliesContainer) {
+        repliesContainer.classList.toggle('hidden');
+    }
 
-    repliesContainer.classList.toggle('hidden')
-    replyInputContainer.classList.toggle('hidden')
-
-    replyBtn.classList.toggle('hidden')
+    if (replyInputContainer) {
+        replyInputContainer.classList.toggle('hidden');
+    }
 }
 
-function replyTweet(tweetId) {
+export function replyTweet(tweetId) {
     const replyInput = document.getElementById(`reply-text-${tweetId}`)
 
     // Find the tweet by its UUID
@@ -287,12 +294,16 @@ function replyTweet(tweetId) {
         } else if (dataD) {
             dataD.replies.push(replyData)
     }
-        
-        localStorage.setItem('tweetsData', JSON.stringify(tweetsData))
-        localStorage.setItem('userTweets', JSON.stringify(userTweets))
 
-        render()
-        replyInput.value = '' 
+    userReplies.push(replyData)
+        
+    localStorage.setItem('tweetsData', JSON.stringify(tweetsData))
+    localStorage.setItem('userTweets', JSON.stringify(userTweets))
+    localStorage.setItem('userReplies', JSON.stringify(userReplies))
+    
+
+    render()
+    replyInput.value = '' 
     }
 }
 
@@ -329,7 +340,7 @@ function handleTweetBtnClick(){
 
 }
 
-function getFeedHtml(feedArr) {
+export function getFeedHtml(feedArr) {
     let feedHtml = ``;
 
     feedArr.forEach(function (tweet) {
@@ -446,10 +457,35 @@ function getFeedHtml(feedArr) {
 
 
 // Used to render the feed by inserting the generated HTML into the page
-function render(){
+export function render(){
+  
+   
     
+    //index.html
     document.getElementById('feed-following').innerHTML = getFeedHtml(userTweets)
     document.getElementById('feed').innerHTML = getFeedHtml(tweetsData)
+
+    const eachLikedTweet = document.getElementById('each-show-likes');
+    const eachShowTweet = document.getElementById('each-show-tweet');
+    const eachReply = document.getElementById('each-show-replies');
+    
+    if (eachLikedTweet) {
+        const likedTweets = tweetsData.filter(tweet => tweet.isLiked);
+        const newContent = getFeedHtml(likedTweets);
+        eachLikedTweet.insertAdjacentHTML('beforeend', newContent);
+    }
+
+    if (eachShowTweet) {
+        const newContent = getFeedHtml(userTweets);
+        eachShowTweet.insertAdjacentHTML('beforeend', newContent);
+    }
+
+    if (eachReply) {
+        const newContent = getFeedHtml(userReplies);
+        eachReply.insertAdjacentHTML('beforeend', newContent);
+    }
+
+    
 }
 
 //helper function 
@@ -472,9 +508,6 @@ function findTweetObj(data, id) {
     return targetObj
 }
 
-
-
-// document.getElementById('back-header').innerHTML = `${userTweets.length} Posts`
 
 
 // Initial call to display initial feed

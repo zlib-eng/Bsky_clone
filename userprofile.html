@@ -18,50 +18,112 @@
         <div class="middlecontainer">
             <section class="headsec">
                 <i class="fa fa-arrow-left" id="fa-arrow-left"></i>
-                <div>
-                    <h3>Ziada Libse</h2>
-                        <span id="back-header"></span>
-                </div>
-            </section>
-            <section class="twitterprofile">
-                <div class="headerprofileimage">
-                    <img src="https://res.cloudinary.com/dowrygm9b/image/upload/v1570267399/laptop-3174729_yiprzu.jpg" alt="header" id="headerimage">
-                    <img src="https://res.cloudinary.com/dowrygm9b/image/upload/v1570267399/laptop-3174729_yiprzu.jpg" alt="profile pic" id="profilepic">
-                    <div class="editprofile">Edit Profile</div>
-                </div>
-                <div class="bio">
-                    <div class="handle">
-                        <h3>Ziada Libse</h3>
-                        <span>@zlib7328732</span>
-                    </div>
-                    <p>Computer Science Student |</p>
-                    <p>Web developer |</p>
-                    <p>I love to read sometimes |</p> <br>
-                    <span> <i class="fa fa-location-arrow "></i> Francistown, Botswana. <a href="#"> <i
-                                class="fa fa-external-link" aria-hidden="true"></i>ii</a> <i
-                            class="fa fa-birthday-cake" aria-hidden="true"></i> Born April 30</span>
-                    <br> <span><i class="fa fa-calendar"></i> Joined May 2022</span>
-                    <div class="follower-stats">
-                        <div class="followers"> 421 <span>Following</span></div>
-                        <div>1519<span> Followers</span></div>
-                    </div>
+                <div class="username">
+                    <h2 id="user-name">Ziada Libse</h2>
+                    <h3 id="back-header"></h3>
                 </div>
             </section>
 
-            <section class="tweets">
-                <div class="heading">
-                    <p>Tweets</p>
-                    <p>Replies</p>
-                    <p>Media</p>
-                    <p>Likes</p>
-                    <p>Feeds</p>
+            <section class="twitterprofile">
+                <div class="headerprofileimage">
+                    <img src="" alt="header" id="headerimage">
+                    <img src="images/scrimbalogo.png" alt="profile pic" id="profilepic">
+                    <div class="editprofile" id="edit-profile">Edit Profile</div>
                 </div>
+
+                <div class="bio" id="bioSection">
+                    <div class="user-handle">
+                        <h3 id="user-name">Ziada Libse</h3>
+                        <span id="bio-Handle">@zlib7328732</span>
+                    </div>
+                
+                    <p id="bioText">Computer Science Student | Web developer | I love to read sometimes</p> 
+                
+                    <div class="follower-stats">
+                        <div class="following-user"> 421 <span>Following</span></div>
+                        <div class="followers-user">1519<span> Followers</span></div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Edit Profile Modal -->
+                <div id="edit-profile-modal" class="modal">
+                    <div class="modal-content">
+                        <p id="edit-title">Edit My Profile</p>
+                
+                        <div class="profile-pic-modal">
+                            <label for="header-image-upload">
+                                <img alt="Header" src="" id="header-image">
+                            </label>
+                                <input id="header-image-upload" class="hidden" type="file">
+                                
+
+                            <label for="profile-image-upload">
+                                <img alt="User Pic" src="" id="profile-image1">
+                            </label>
+                            <input id="profile-image-upload" class="hidden" type="file">
+                        </div>
+                
+                        <form id="profile-form">
+                            <label for="name">Display Name</label>
+                            <input type="text" id="name" placeholder="e.g. Ziada Libse">
+                            
+                            <label for="edit-bio">Description</label>
+                            <textarea id="edit-bio" placeholder="e.g. Web developer | I love to read sometimes"></textarea>
+                
+                            <div class="modal-buttons">
+                                <button type="submit" class="save-btn">Save Changes</button>
+                                <button type="button" class="cancel-btn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+
+            <section class="tweets">
+                    <div class="user-menu">
+                        <div class="user-menu-item active tweet-tab">Tweets</div>
+                        <div class="user-menu-item replies-tab">Replies</div>
+                        <div class="user-menu-item media-tab">Media</div>
+                        <div class="user-menu-item likes-tab">Likes</div>
+                        <div class="user-menu-item feeds-tab">Feeds</div>
+                      </div>
+
+                    <div class="show-tweet">
+                        <div class="each-show-tweet" id="each-show-tweet">
+                            <!-- Tweets here!! -->
+                        </div>
+                    </div>
+                    <div class="show-replies hidden">
+                        <div class="each-show-replies"  id="each-show-replies">
+                            <!-- Tweets here!! -->
+                        </div>
+                    </div>
+                    <div class="show-media hidden">
+                        <div class="each-show-media" id="each-show-media">
+                            <!-- Tweets here!! -->
+                        </div>
+                    </div>
+                    <div class="show-likes hidden">
+                        <div class="each-show-likes" id="each-show-likes">
+                            <!-- Tweets here!! -->
+                        </div>
+                    </div>
+                    <div class="show-feeds hidden">
+                        <div class="each-show-feeds" id="each-show-feeds">
+                            <!-- Tweets here!! -->
+                        </div>
+                    </div>
+
+                    
             </section>
 
         </div>
 
     </div>
-    <script src="index.js" type="module"></script>
+    <script src="profile.js" type="module"></script>
+    
+    
 
 
 
